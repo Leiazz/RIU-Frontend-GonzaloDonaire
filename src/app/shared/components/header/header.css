@@ -1,0 +1,7 @@
+.header-nav-list {
+  display: flex;
+  text-align: center;
+}
+.header-nav-list .active {
+  background-color: #dae2f9;
+}
