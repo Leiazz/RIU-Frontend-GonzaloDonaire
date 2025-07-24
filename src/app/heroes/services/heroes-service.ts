@@ -8,6 +8,7 @@ import { HeroesMapper } from '../mappers/HeroesMapper';
 })
 export class HeroesService {
   private _heroes = signal<Hero[]>([]);
+  heroes = this._heroes.asReadonly();
   loading = signal<boolean>(false);
 
   getHeroes(): void {
