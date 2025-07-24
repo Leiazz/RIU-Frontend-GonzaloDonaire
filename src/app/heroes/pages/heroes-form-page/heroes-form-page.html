@@ -1,1 +1,22 @@
-<p>heroes-form-page works!</p>
+<form class="heroes-form" [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Poder</mat-label>
+    <input matInput formControlName="power">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Universo</mat-label>
+    <mat-select formControlName="universe">
+      <mat-option value="DC">DC</mat-option>
+      <mat-option value="Marvel">Marvel</mat-option>
+      <mat-option value="other">Otro</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <section class="heroes-form-actions">
+    <button matButton="filled">Guardar</button>
+    <button matButton="elevated">Cancelar</button>
+  </section>
+</form>
