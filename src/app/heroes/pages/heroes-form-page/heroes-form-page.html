@@ -1,6 +1,7 @@
 @if (heroesService.loading()) {
 <mat-spinner></mat-spinner>
 } @else {
+<h2>{{ mode() === 'create' ? 'Crear Héroe' : 'Editar Héroe' }}</h2>
 <form class="heroes-form" [formGroup]="form" (ngSubmit)="onSaveHero()">
   <mat-form-field>
     <mat-label>Nombre</mat-label>
@@ -32,8 +33,14 @@
   </mat-form-field>
 
   <section class="heroes-form-actions">
-    <button [disabled]="form.invalid" type="submit" matButton="filled">Guardar</button>
-    <button matButton="elevated" (click)="onCancel()">Cancelar</button>
+    <button [disabled]="form.invalid || heroesService.loadingCreateOrEdit()" type="submit" matButton="filled">
+      @if (heroesService.loadingCreateOrEdit()) {
+      <mat-spinner [diameter]="20" color="white"></mat-spinner>
+      }@else {
+      Guardar
+      }
+    </button>
+    <button [disabled]="heroesService.loadingCreateOrEdit()" matButton="elevated" (click)="onCancel()">Cancelar</button>
   </section>
 </form>
 }

@@ -10,6 +10,7 @@ export class HeroesService {
   private _heroes = signal<Hero[]>([]);
   heroes = this._heroes.asReadonly();
   loading = signal<boolean>(false);
+  loadingCreateOrEdit = signal<boolean>(false);
 
   constructor() {
     this.getHeroes();
@@ -43,13 +44,17 @@ export class HeroesService {
   }
 
   updateHero(hero: Hero): void {
-    const heroes = this._heroes();
-    const index = heroes.findIndex((h) => h.id === hero.id);
-    if (index !== -1) {
-      heroes[index] = hero;
-      localStorage.setItem('heroes', JSON.stringify(heroes));
-      this._heroes.set([...heroes]);
-    }
+    this.loadingCreateOrEdit.set(true);
+    setTimeout(() => {
+      const heroes = this._heroes();
+      const index = heroes.findIndex((h) => h.id === hero.id);
+      if (index !== -1) {
+        heroes[index] = hero;
+        localStorage.setItem('heroes', JSON.stringify(heroes));
+        this._heroes.set([...heroes]);
+      }
+      this.loadingCreateOrEdit.set(false);
+    }, 1000);
   }
 
   deleteHero(id: number): void {

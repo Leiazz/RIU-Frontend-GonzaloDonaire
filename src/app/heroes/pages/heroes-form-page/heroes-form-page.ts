@@ -58,7 +58,10 @@ export class HeroesFormPage {
     }
   }
 
-  onSaveHero() {}
+  onSaveHero() {
+    if (this.form.invalid) return;
+    this.heroesService.updateHero(this.form.value);
+  }
 
   onCancel(): void {
     this.router.navigateByUrl('/');
