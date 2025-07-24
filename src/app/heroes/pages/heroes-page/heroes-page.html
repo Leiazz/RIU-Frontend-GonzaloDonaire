@@ -1,7 +1,6 @@
 @if (heroesService.loading()) {
 <mat-spinner></mat-spinner>
 } @else {
-<button mat-button (click)="onAddButton()">Añadir</button>
 
 <table mat-table [dataSource]="heroesService.heroes()" class="mat-elevation-z8">
 

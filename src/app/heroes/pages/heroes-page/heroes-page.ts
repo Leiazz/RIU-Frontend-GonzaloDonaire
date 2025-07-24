@@ -20,7 +20,4 @@ export class HeroesPage {
   onEditButton(hero: Hero) {
     this.router.navigateByUrl(`/form?id=${hero.id}`);
   }
-  onAddButton() {
-    this.router.navigateByUrl('/form');
-  }
 }
