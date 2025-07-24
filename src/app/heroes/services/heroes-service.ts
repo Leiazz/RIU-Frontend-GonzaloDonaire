@@ -11,6 +11,10 @@ export class HeroesService {
   heroes = this._heroes.asReadonly();
   loading = signal<boolean>(false);
 
+  constructor() {
+    this.getHeroes();
+  }
+
   getHeroes(): void {
     this.loading.set(true);
     setTimeout(() => {

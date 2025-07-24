@@ -1,11 +1,23 @@
-<form class="heroes-form" [formGroup]="form">
+@if (heroesService.loading()) {
+<mat-spinner></mat-spinner>
+} @else {
+<form class="heroes-form" [formGroup]="form" (ngSubmit)="onSaveHero()">
   <mat-form-field>
     <mat-label>Nombre</mat-label>
     <input matInput formControlName="name">
+    @if (form.get('name')?.hasError('required')) {
+    <mat-error>El nombre es obligatorio</mat-error>
+    }
+    @if (form.get('name')?.hasError('minlength')) {
+    <mat-error>El nombre debe tener al menos 3 caracteres</mat-error>
+    }
   </mat-form-field>
   <mat-form-field>
     <mat-label>Poder</mat-label>
     <input matInput formControlName="power">
+    @if (form.get('power')?.hasError('required')) {
+    <mat-error>El poder es obligatorio</mat-error>
+    }
   </mat-form-field>
   <mat-form-field>
     <mat-label>Universo</mat-label>
@@ -14,9 +26,14 @@
       <mat-option value="Marvel">Marvel</mat-option>
       <mat-option value="other">Otro</mat-option>
     </mat-select>
+    @if (form.get('universe')?.hasError('required')) {
+    <mat-error>El universo es obligatorio</mat-error>
+    }
   </mat-form-field>
+
   <section class="heroes-form-actions">
-    <button matButton="filled">Guardar</button>
-    <button matButton="elevated">Cancelar</button>
+    <button [disabled]="form.invalid" type="submit" matButton="filled">Guardar</button>
+    <button matButton="elevated" (click)="onCancel()">Cancelar</button>
   </section>
 </form>
+}
