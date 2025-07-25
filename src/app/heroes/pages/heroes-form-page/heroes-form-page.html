@@ -5,7 +5,7 @@
 <form class="heroes-form" [formGroup]="form" (ngSubmit)="onSaveHero()">
   <mat-form-field>
     <mat-label>Nombre</mat-label>
-    <input matInput formControlName="name">
+    <input matInput formControlName="name" appSeeInUppercase>
     @if (form.get('name')?.hasError('required')) {
     <mat-error>El nombre es obligatorio</mat-error>
     }

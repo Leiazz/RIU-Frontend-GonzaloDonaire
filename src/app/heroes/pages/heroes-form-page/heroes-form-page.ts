@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HeroesService } from '../../services/heroes-service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { JsonPipe } from '@angular/common';
+import { SeeInUppercase } from '../../directives/see-in-uppercase';
 
 @Component({
   selector: 'app-heroes-form-page',
@@ -21,6 +22,7 @@ import { JsonPipe } from '@angular/common';
     MatSelectModule,
     MatButtonModule,
     MatProgressSpinner,
+    SeeInUppercase,
   ],
   templateUrl: './heroes-form-page.html',
   styleUrl: './heroes-form-page.css',
