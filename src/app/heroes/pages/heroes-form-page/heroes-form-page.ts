@@ -13,6 +13,8 @@ import { HeroesService } from '../../services/heroes-service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { JsonPipe } from '@angular/common';
 import { SeeInUppercase } from '../../directives/see-in-uppercase';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-heroes-form-page',
@@ -40,6 +42,10 @@ export class HeroesFormPage {
   heroesService = inject(HeroesService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
+  idHero = toSignal(
+    this.activatedRoute.queryParamMap.pipe(map((params) => params.get('id'))),
+    { initialValue: null }
+  );
 
   constructor() {
     effect(() => {
@@ -48,7 +54,9 @@ export class HeroesFormPage {
   }
 
   populateForm(): void {
-    const heroId = this.activatedRoute.snapshot.queryParamMap.get('id');
+    const heroId = this.idHero();
+    this.form.reset();
+    this.form.markAsPristine();
     if (heroId) {
       this.mode.set('edit');
       const hero = this.heroesService.getHeroById(Number(heroId));
