@@ -20,6 +20,7 @@ export class HeroesService {
   });
   loading = signal<boolean>(false);
   loadingCreateOrEdit = signal<boolean>(false);
+  loadingDelete = signal<boolean>(false);
   router = inject(Router);
 
   constructor() {
@@ -81,10 +82,17 @@ export class HeroesService {
     }, 1000);
   }
 
-  deleteHero(id: number): void {
-    const heroes = this.heroes();
-    const updatedHeroes = heroes.filter((hero) => hero.id !== id);
-    localStorage.setItem('heroes', JSON.stringify(updatedHeroes));
-    this.heroes.set(updatedHeroes);
+  deleteHero(id: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.loadingDelete.set(true);
+      setTimeout(() => {
+        const heroes = this.heroes();
+        const updatedHeroes = heroes.filter((hero) => hero.id !== id);
+        localStorage.setItem('heroes', JSON.stringify(updatedHeroes));
+        this.heroes.set(updatedHeroes);
+        this.loadingDelete.set(false);
+        resolve();
+      }, 1000);
+    });
   }
 }
