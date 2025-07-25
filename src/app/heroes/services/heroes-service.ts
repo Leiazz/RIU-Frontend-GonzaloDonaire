@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Hero } from '../interfaces/hero';
 import { HEROES } from '../data/heroesdb';
 import { HeroesMapper } from '../mappers/HeroesMapper';
@@ -7,8 +7,16 @@ import { HeroesMapper } from '../mappers/HeroesMapper';
   providedIn: 'root',
 })
 export class HeroesService {
-  private _heroes = signal<Hero[]>([]);
-  heroes = this._heroes.asReadonly();
+  heroes = signal<Hero[]>([]);
+  searchString = signal<string>('');
+  heroesFiltered = computed(() => {
+    const searchString = this.searchString().toLowerCase();
+    if (!searchString) return this.heroes();
+
+    return this.heroes().filter((hero) =>
+      hero.name.toLowerCase().includes(searchString)
+    );
+  });
   loading = signal<boolean>(false);
   loadingCreateOrEdit = signal<boolean>(false);
 
@@ -24,43 +32,41 @@ export class HeroesService {
       );
       if (heroesFromStorage.length > 0) {
         const mappedHeroes = HeroesMapper(heroesFromStorage);
-        this._heroes.set(mappedHeroes);
+        this.heroes.set(mappedHeroes);
       } else {
         localStorage.setItem('heroes', JSON.stringify(HEROES));
-        this._heroes.set(HEROES);
+        this.heroes.set(HEROES);
       }
       this.loading.set(false);
     }, 1000);
   }
 
   getHeroById(id: number): Hero | undefined {
-    return this._heroes().find((hero) => hero.id === id);
+    return this.heroes().find((hero) => hero.id === id);
   }
 
-  getHeroContainsString(searchString: string): Hero[] {
-    return this._heroes().filter((hero) =>
-      hero.name.toLowerCase().includes(searchString.toLowerCase())
-    );
+  onChangeSearchString(searchString: string): void {
+    this.searchString.set(searchString);
   }
 
   updateHero(hero: Hero): void {
     this.loadingCreateOrEdit.set(true);
     setTimeout(() => {
-      const heroes = this._heroes();
+      const heroes = this.heroes();
       const index = heroes.findIndex((h) => h.id === hero.id);
       if (index !== -1) {
         heroes[index] = hero;
         localStorage.setItem('heroes', JSON.stringify(heroes));
-        this._heroes.set([...heroes]);
+        this.heroes.set([...heroes]);
       }
       this.loadingCreateOrEdit.set(false);
     }, 1000);
   }
 
   deleteHero(id: number): void {
-    const heroes = this._heroes();
+    const heroes = this.heroes();
     const updatedHeroes = heroes.filter((hero) => hero.id !== id);
     localStorage.setItem('heroes', JSON.stringify(updatedHeroes));
-    this._heroes.set(updatedHeroes);
+    this.heroes.set(updatedHeroes);
   }
 }

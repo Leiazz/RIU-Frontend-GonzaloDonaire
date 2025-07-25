@@ -1,8 +1,11 @@
 @if (heroesService.loading()) {
 <mat-spinner></mat-spinner>
 } @else {
-
-<table mat-table [dataSource]="heroesService.heroes()" class="mat-elevation-z8">
+<mat-form-field class="search-field">
+  <mat-label>Buscar héroe por nombre</mat-label>
+  <input matInput #searchTxt (input)="heroesService.onChangeSearchString(searchTxt.value)">
+</mat-form-field>
+<table mat-table [dataSource]="heroesService.heroesFiltered()" class="mat-elevation-z8">
 
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> ID </th>

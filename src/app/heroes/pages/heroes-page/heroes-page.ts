@@ -5,10 +5,16 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { Hero } from '../../interfaces/hero';
 import { Router } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-heroes-page',
-  imports: [MatTableModule, MatProgressSpinner, MatButtonModule],
+  imports: [
+    MatTableModule,
+    MatProgressSpinner,
+    MatButtonModule,
+    MatInputModule,
+  ],
   templateUrl: './heroes-page.html',
   styleUrl: './heroes-page.css',
 })
