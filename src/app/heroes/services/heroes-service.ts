@@ -1,7 +1,8 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Hero } from '../interfaces/hero';
 import { HEROES } from '../data/heroesdb';
 import { HeroesMapper } from '../mappers/HeroesMapper';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,7 @@ export class HeroesService {
   });
   loading = signal<boolean>(false);
   loadingCreateOrEdit = signal<boolean>(false);
+  router = inject(Router);
 
   constructor() {
     this.getHeroes();
@@ -48,6 +50,21 @@ export class HeroesService {
   onChangeSearchString(searchString: string): void {
     this.searchString.set(searchString);
   }
+  createHero(hero: Hero): void {
+    this.loadingCreateOrEdit.set(true);
+    setTimeout(() => {
+      const heroes = this.heroes();
+      const newHero = {
+        ...hero,
+        id: heroes.length > 0 ? Math.max(...heroes.map((h) => h.id)) + 1 : 1,
+      };
+      const newHeroes = [...heroes, newHero];
+      localStorage.setItem('heroes', JSON.stringify(newHeroes));
+      this.heroes.set(newHeroes);
+      this.router.navigateByUrl('/');
+      this.loadingCreateOrEdit.set(false);
+    }, 1000);
+  }
 
   updateHero(hero: Hero): void {
     this.loadingCreateOrEdit.set(true);
@@ -59,6 +76,7 @@ export class HeroesService {
         localStorage.setItem('heroes', JSON.stringify(heroes));
         this.heroes.set([...heroes]);
       }
+      this.router.navigateByUrl('/');
       this.loadingCreateOrEdit.set(false);
     }, 1000);
   }

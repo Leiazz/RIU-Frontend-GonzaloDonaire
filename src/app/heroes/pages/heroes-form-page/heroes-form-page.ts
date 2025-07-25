@@ -60,7 +60,11 @@ export class HeroesFormPage {
 
   onSaveHero() {
     if (this.form.invalid) return;
-    this.heroesService.updateHero(this.form.value);
+    if (this.mode() === 'create') {
+      this.heroesService.createHero(this.form.value);
+    } else {
+      this.heroesService.updateHero(this.form.value);
+    }
   }
 
   onCancel(): void {
