@@ -1,6 +1,3 @@
-@if (heroesService.loading()) {
-<mat-spinner></mat-spinner>
-} @else {
 <h2>{{ mode() === 'create' ? 'Crear Héroe' : 'Editar Héroe' }}</h2>
 <form class="heroes-form" [formGroup]="form" (ngSubmit)="onSaveHero()">
   <mat-form-field>
@@ -43,4 +40,3 @@
     <button [disabled]="heroesService.loadingCreateOrEdit()" matButton="elevated" (click)="onCancel()">Cancelar</button>
   </section>
 </form>
-}

@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { HeroesService } from '../../services/heroes-service';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { Hero } from '../../interfaces/hero';
 import { Router } from '@angular/router';
@@ -11,12 +10,7 @@ import { ConfirmDelete } from '../../components/confirm-delete/confirm-delete';
 
 @Component({
   selector: 'app-heroes-page',
-  imports: [
-    MatTableModule,
-    MatProgressSpinner,
-    MatButtonModule,
-    MatInputModule,
-  ],
+  imports: [MatTableModule, MatButtonModule, MatInputModule],
   templateUrl: './heroes-page.html',
   styleUrl: './heroes-page.css',
 })

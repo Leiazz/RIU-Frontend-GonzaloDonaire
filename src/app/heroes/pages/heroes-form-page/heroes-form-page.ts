@@ -11,7 +11,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HeroesService } from '../../services/heroes-service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { JsonPipe } from '@angular/common';
 import { SeeInUppercase } from '../../directives/see-in-uppercase';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
