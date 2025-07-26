@@ -10,22 +10,22 @@
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <th mat-header-cell *matHeaderCellDef> Nombre </th>
     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
   </ng-container>
 
   <ng-container matColumnDef="power">
-    <th mat-header-cell *matHeaderCellDef> Power </th>
+    <th mat-header-cell *matHeaderCellDef> Poder </th>
     <td mat-cell *matCellDef="let element"> {{element.power}} </td>
   </ng-container>
 
   <ng-container matColumnDef="universe">
-    <th mat-header-cell *matHeaderCellDef> Universe </th>
+    <th mat-header-cell *matHeaderCellDef> Universo </th>
     <td mat-cell *matCellDef="let element"> {{element.universe}} </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <th mat-header-cell *matHeaderCellDef> Acciones </th>
     <td mat-cell *matCellDef="let element">
       <button mat-button (click)="onEditButton(element)">Editar</button>
       <button mat-button (click)="onDeleteButton(element)">Eliminar</button>

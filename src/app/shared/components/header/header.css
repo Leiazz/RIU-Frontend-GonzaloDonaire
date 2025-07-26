@@ -1,6 +1,10 @@
 .header-nav-list {
   display: flex;
   text-align: center;
+  height: 100px;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  gap: 20px;
 }
 .header-nav-list .active {
   background-color: #dae2f9;

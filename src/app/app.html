@@ -1,9 +1,13 @@
 <app-header></app-header>
 
 @if (heroesService.loading()) {
-<mat-spinner></mat-spinner>
+<section class="loading-section">
+  <mat-spinner [diameter]="60"></mat-spinner>
+</section>
 } @else {
-<router-outlet />
+<section class="main-layout">
+  <router-outlet />
+</section>
 <button matFab routerLink="/form" class="add-hero-button">
   <mat-icon>add</mat-icon>
 </button>
