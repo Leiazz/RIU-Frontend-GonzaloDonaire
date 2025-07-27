@@ -3,11 +3,13 @@ import { Hero } from '../interfaces/hero';
 import { HEROES } from '../data/heroesdb';
 import { HeroesMapper } from '../mappers/HeroesMapper';
 import { Router } from '@angular/router';
+import { LoadingService } from './loading-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HeroesService {
+  private readonly HEROES_KEY = 'heroes';
   heroes = signal<Hero[]>([]);
   searchString = signal<string>('');
   heroesFiltered = computed(() => {
@@ -18,30 +20,31 @@ export class HeroesService {
       hero.name.toLowerCase().includes(searchString)
     );
   });
-  loading = signal<boolean>(false);
-  loadingCreateOrEdit = signal<boolean>(false);
-  loadingDelete = signal<boolean>(false);
+  loadingService = inject(LoadingService);
   router = inject(Router);
 
   constructor() {
     this.getHeroes();
   }
+  private getHeroesFromStorage(): Hero[] {
+    const stored = localStorage.getItem(this.HEROES_KEY);
+    if (stored) {
+      return HeroesMapper(JSON.parse(stored));
+    } else {
+      localStorage.setItem(this.HEROES_KEY, JSON.stringify(HEROES));
+      return HEROES;
+    }
+  }
 
-  getHeroes(): void {
-    this.loading.set(true);
-    setTimeout(() => {
-      const heroesFromStorage = JSON.parse(
-        localStorage.getItem('heroes') || '[]'
-      );
-      if (heroesFromStorage.length > 0) {
-        const mappedHeroes = HeroesMapper(heroesFromStorage);
-        this.heroes.set(mappedHeroes);
-      } else {
-        localStorage.setItem('heroes', JSON.stringify(HEROES));
-        this.heroes.set(HEROES);
-      }
-      this.loading.set(false);
-    }, 1000);
+  getHeroes(): Promise<void> {
+    this.loadingService.updateLoadingList(true);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.heroes.set(this.getHeroesFromStorage());
+        this.loadingService.updateLoadingList(false);
+        resolve();
+      }, 1000);
+    });
   }
 
   getHeroById(id: number): Hero | undefined {
@@ -51,46 +54,53 @@ export class HeroesService {
   onChangeSearchString(searchString: string): void {
     this.searchString.set(searchString);
   }
-  createHero(hero: Hero): void {
-    this.loadingCreateOrEdit.set(true);
-    setTimeout(() => {
-      const heroes = this.heroes();
-      const newHero = {
-        ...hero,
-        id: heroes.length > 0 ? Math.max(...heroes.map((h) => h.id)) + 1 : 1,
-      };
-      const newHeroes = [...heroes, newHero];
-      localStorage.setItem('heroes', JSON.stringify(newHeroes));
-      this.heroes.set(newHeroes);
-      this.router.navigateByUrl('/');
-      this.loadingCreateOrEdit.set(false);
-    }, 1000);
+  createHero(hero: Hero): Promise<void> {
+    this.loadingService.updateLoadingSave(true);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const heroes = this.heroes();
+        const newHero = {
+          ...hero,
+          id: heroes.length > 0 ? Math.max(...heroes.map((h) => h.id)) + 1 : 1,
+        };
+        const newHeroes = [...heroes, newHero];
+        localStorage.setItem(this.HEROES_KEY, JSON.stringify(newHeroes));
+        this.heroes.set(newHeroes);
+        this.router.navigateByUrl('/');
+        this.loadingService.updateLoadingSave(false);
+        resolve();
+      }, 1000);
+    });
   }
 
-  updateHero(hero: Hero): void {
-    this.loadingCreateOrEdit.set(true);
-    setTimeout(() => {
-      const heroes = this.heroes();
-      const index = heroes.findIndex((h) => h.id === hero.id);
-      if (index !== -1) {
-        heroes[index] = hero;
-        localStorage.setItem('heroes', JSON.stringify(heroes));
-        this.heroes.set([...heroes]);
-      }
-      this.router.navigateByUrl('/');
-      this.loadingCreateOrEdit.set(false);
-    }, 1000);
+  updateHero(hero: Hero): Promise<void> {
+    this.loadingService.updateLoadingSave(true);
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const heroes = this.heroes();
+        const index = heroes.findIndex((h) => h.id === hero.id);
+        if (index !== -1) {
+          heroes[index] = hero;
+          localStorage.setItem(this.HEROES_KEY, JSON.stringify(heroes));
+          this.heroes.set([...heroes]);
+        }
+        this.router.navigateByUrl('/');
+        this.loadingService.updateLoadingSave(false);
+        resolve();
+      }, 1000);
+    });
   }
 
   deleteHero(id: number): Promise<void> {
     return new Promise((resolve) => {
-      this.loadingDelete.set(true);
+      this.loadingService.updateLoadingDelete(true);
       setTimeout(() => {
         const heroes = this.heroes();
         const updatedHeroes = heroes.filter((hero) => hero.id !== id);
-        localStorage.setItem('heroes', JSON.stringify(updatedHeroes));
+        localStorage.setItem(this.HEROES_KEY, JSON.stringify(updatedHeroes));
         this.heroes.set(updatedHeroes);
-        this.loadingDelete.set(false);
+        this.loadingService.updateLoadingDelete(false);
         resolve();
       }, 1000);
     });

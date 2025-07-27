@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-@if (heroesService.loading()) {
+@if (loadingService.loadingList()) {
 <section class="loading-section">
   <mat-spinner [diameter]="60"></mat-spinner>
 </section>

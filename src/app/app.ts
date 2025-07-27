@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HeroesService } from './heroes/services/heroes-service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { LoadingService } from './heroes/services/loading-service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,6 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class App {
   protected readonly title = signal('RIU-Frontend-GonzaloDonaire');
-
+  loadingService = inject(LoadingService);
   heroesService = inject(HeroesService);
 }

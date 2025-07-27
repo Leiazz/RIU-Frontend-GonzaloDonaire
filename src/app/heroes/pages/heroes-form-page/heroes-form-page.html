@@ -30,13 +30,13 @@
   </mat-form-field>
 
   <section class="heroes-form-actions">
-    <button [disabled]="form.invalid || heroesService.loadingCreateOrEdit()" type="submit" matButton="filled">
-      @if (heroesService.loadingCreateOrEdit()) {
+    <button [disabled]="form.invalid || loadingService.loadingSave()" type="submit" matButton="filled">
+      @if (loadingService.loadingSave()) {
       <mat-spinner [diameter]="20" color="white"></mat-spinner>
       }@else {
       Guardar
       }
     </button>
-    <button [disabled]="heroesService.loadingCreateOrEdit()" matButton="elevated" (click)="onCancel()">Cancelar</button>
+    <button [disabled]="loadingService.loadingSave()" matButton="elevated" (click)="onCancel()">Cancelar</button>
   </section>
 </form>

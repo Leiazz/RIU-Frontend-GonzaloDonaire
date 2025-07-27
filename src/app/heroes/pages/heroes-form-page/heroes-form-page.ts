@@ -14,6 +14,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { SeeInUppercase } from '../../directives/see-in-uppercase';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { LoadingService } from '../../services/loading-service';
 
 @Component({
   selector: 'app-heroes-form-page',
@@ -39,6 +40,7 @@ export class HeroesFormPage {
     universe: new FormControl<string>('', [Validators.required]),
   });
   heroesService = inject(HeroesService);
+  loadingService = inject(LoadingService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
   idHero = toSignal(
