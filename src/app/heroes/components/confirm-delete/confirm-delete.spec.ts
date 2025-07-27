@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfirmDelete } from './confirm-delete';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HeroesService } from '../../services/heroes-service';
+import { LoadingService } from '../../services/loading-service';
 import { Hero } from '../../interfaces/hero';
 
 describe('ConfirmDelete', () => {
@@ -10,6 +11,7 @@ describe('ConfirmDelete', () => {
 
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<ConfirmDelete>>;
   let mockHeroesService: jasmine.SpyObj<HeroesService>;
+  let mockLoadingService: jasmine.SpyObj<LoadingService>;
   const hero: Hero = {
     id: 1,
     name: 'Test Hero',
@@ -19,8 +21,8 @@ describe('ConfirmDelete', () => {
 
   beforeEach(async () => {
     mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
-    mockHeroesService = jasmine.createSpyObj('HeroesService', [
-      'deleteHero',
+    mockHeroesService = jasmine.createSpyObj('HeroesService', ['deleteHero']);
+    mockLoadingService = jasmine.createSpyObj('LoadingService', [
       'loadingDelete',
     ]);
     await TestBed.configureTestingModule({
@@ -29,6 +31,7 @@ describe('ConfirmDelete', () => {
         { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: MAT_DIALOG_DATA, useValue: { hero } },
         { provide: HeroesService, useValue: mockHeroesService },
+        { provide: LoadingService, useValue: mockLoadingService },
       ],
     }).compileComponents();
 
@@ -49,7 +52,7 @@ describe('ConfirmDelete', () => {
   });
 
   it('should disable buttons when loadingDelete is true', () => {
-    mockHeroesService.loadingDelete.and.returnValue(true);
+    mockLoadingService.loadingDelete.and.returnValue(true);
     fixture.detectChanges();
     const buttons = fixture.nativeElement.querySelectorAll('button');
     expect(buttons[0].disabled).toBeTrue();
@@ -57,7 +60,7 @@ describe('ConfirmDelete', () => {
   });
 
   it('should enable buttons when loadingDelete is false', () => {
-    mockHeroesService.loadingDelete.and.returnValue(false);
+    mockLoadingService.loadingDelete.and.returnValue(false);
     fixture.detectChanges();
     const buttons = fixture.nativeElement.querySelectorAll('button');
     expect(buttons[0].disabled).toBeFalse();
@@ -65,14 +68,14 @@ describe('ConfirmDelete', () => {
   });
 
   it('should show spinner when loadingDelete is true', () => {
-    mockHeroesService.loadingDelete.and.returnValue(true);
+    mockLoadingService.loadingDelete.and.returnValue(true);
     fixture.detectChanges();
     const spinner = fixture.nativeElement.querySelector('mat-spinner');
     expect(spinner).toBeTruthy();
   });
 
   it('should show "Si, eliminar" when loadingDelete is false', () => {
-    mockHeroesService.loadingDelete.and.returnValue(false);
+    mockLoadingService.loadingDelete.and.returnValue(false);
     fixture.detectChanges();
     const button = fixture.nativeElement.querySelectorAll('button')[1];
     expect(button.textContent).toContain('Si, eliminar');
