@@ -20,6 +20,10 @@ export class HeroesPage {
   router = inject(Router);
   displayedColumns: string[] = ['id', 'name', 'power', 'universe', 'actions'];
 
+  ngOnDestroy(): void {
+    this.heroesService.onChangeSearchString('');
+  }
+
   onEditButton(hero: Hero) {
     this.router.navigateByUrl(`/form?id=${hero.id}`);
   }
