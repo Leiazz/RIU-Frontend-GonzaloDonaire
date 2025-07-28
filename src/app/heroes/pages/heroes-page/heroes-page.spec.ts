@@ -29,6 +29,7 @@ describe('HeroesPage', () => {
       loadingDelete: () => false,
       loadingCreateOrEdit: () => false,
       heroesFiltered: () => [],
+      onChangeSearchString: jasmine.createSpy('onChangeSearchString'),
     } as any;
     mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
     await TestBed.configureTestingModule({
@@ -43,6 +44,10 @@ describe('HeroesPage', () => {
     fixture = TestBed.createComponent(HeroesPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+  it('should call onChangeSearchString("") on ngOnDestroy', () => {
+    component.ngOnDestroy();
+    expect(mockHeroesService.onChangeSearchString).toHaveBeenCalledWith('');
   });
 
   it('should create', () => {
