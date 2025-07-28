@@ -52,13 +52,13 @@ npm test
 Desde la raíz del proyecto, ejecuta:
 
 ```sh
-docker build -t appname .
+docker build -t gonzalodonaireapp .
 ```
 
 ### Ejecutar el contenedor
 
 ```sh
-docker run -p 8080:80 appname
+docker run -p 8080:80 gonzalodonaireapp
 ```
 
 Luego abre tu navegador en [http://localhost:8080](http://localhost:8080) para ver la aplicación.
