@@ -41,13 +41,14 @@ import { LoadingService } from '../../services/loading-service';
 })
 export class ConfirmDelete {
   readonly dialogRef = inject(MatDialogRef<ConfirmDelete>);
-  data = inject<{ hero: Hero }>(MAT_DIALOG_DATA);
+  data = inject<{ hero: Hero; onConfirmAsync: () => Promise<void> }>(
+    MAT_DIALOG_DATA
+  );
 
-  heroesService = inject(HeroesService);
   loadingService = inject(LoadingService);
 
   onConfirmDelete() {
-    this.heroesService.deleteHero(this.data.hero.id).then(() => {
+    this.data.onConfirmAsync().then(() => {
       this.dialogRef.close(true);
     });
   }

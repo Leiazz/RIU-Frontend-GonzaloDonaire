@@ -4,14 +4,20 @@ import { HEROES } from '../data/heroesdb';
 import { HeroesMapper } from '../mappers/HeroesMapper';
 import { Router } from '@angular/router';
 import { LoadingService } from './loading-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HeroesService {
   private readonly HEROES_KEY = 'heroes';
+  private _snackBar = inject(MatSnackBar);
   heroes = signal<Hero[]>([]);
   searchString = signal<string>('');
+
+  loadingService = inject(LoadingService);
+  router = inject(Router);
+
   heroesFiltered = computed(() => {
     const searchString = this.searchString().toLowerCase();
     if (!searchString) return this.heroes();
@@ -20,8 +26,6 @@ export class HeroesService {
       hero.name.toLowerCase().includes(searchString)
     );
   });
-  loadingService = inject(LoadingService);
-  router = inject(Router);
 
   constructor() {
     this.getHeroes();
@@ -68,6 +72,9 @@ export class HeroesService {
         this.heroes.set(newHeroes);
         this.router.navigateByUrl('/');
         this.loadingService.updateLoadingSave(false);
+        this._snackBar.open('Heroe creado correctamente!', 'Cerrar', {
+          duration: 2000,
+        });
         resolve();
       }, 1000);
     });
@@ -87,12 +94,17 @@ export class HeroesService {
         }
         this.router.navigateByUrl('/');
         this.loadingService.updateLoadingSave(false);
+        this._snackBar.open('Heroe actualizado correctamente!', 'Cerrar', {
+          duration: 2000,
+        });
         resolve();
       }, 1000);
     });
   }
 
   deleteHero(id: number): Promise<void> {
+    console.log(`Deleting hero with id: ${id}`);
+
     return new Promise((resolve) => {
       this.loadingService.updateLoadingDelete(true);
       setTimeout(() => {
@@ -101,6 +113,9 @@ export class HeroesService {
         localStorage.setItem(this.HEROES_KEY, JSON.stringify(updatedHeroes));
         this.heroes.set(updatedHeroes);
         this.loadingService.updateLoadingDelete(false);
+        this._snackBar.open('Heroe eliminado correctamente!', 'Cerrar', {
+          duration: 2000,
+        });
         resolve();
       }, 1000);
     });

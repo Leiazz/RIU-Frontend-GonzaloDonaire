@@ -10,7 +10,7 @@ describe('ConfirmDelete', () => {
   let fixture: ComponentFixture<ConfirmDelete>;
 
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<ConfirmDelete>>;
-  let mockHeroesService: jasmine.SpyObj<HeroesService>;
+  let mockOnConfirmAsync: jasmine.Spy<() => Promise<void>>;
   let mockLoadingService: jasmine.SpyObj<LoadingService>;
   const hero: Hero = {
     id: 1,
@@ -21,7 +21,9 @@ describe('ConfirmDelete', () => {
 
   beforeEach(async () => {
     mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
-    mockHeroesService = jasmine.createSpyObj('HeroesService', ['deleteHero']);
+    mockOnConfirmAsync = jasmine
+      .createSpy('onConfirmAsync')
+      .and.returnValue(Promise.resolve());
     mockLoadingService = jasmine.createSpyObj('LoadingService', [
       'loadingDelete',
     ]);
@@ -29,8 +31,10 @@ describe('ConfirmDelete', () => {
       imports: [ConfirmDelete],
       providers: [
         { provide: MatDialogRef, useValue: mockDialogRef },
-        { provide: MAT_DIALOG_DATA, useValue: { hero } },
-        { provide: HeroesService, useValue: mockHeroesService },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: { hero, onConfirmAsync: mockOnConfirmAsync },
+        },
         { provide: LoadingService, useValue: mockLoadingService },
       ],
     }).compileComponents();
@@ -44,10 +48,9 @@ describe('ConfirmDelete', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call deleteHero and close dialog on confirm', async () => {
-    mockHeroesService.deleteHero.and.returnValue(Promise.resolve());
+  it('should call onConfirmAsync and close dialog on confirm', async () => {
     await component.onConfirmDelete();
-    expect(mockHeroesService.deleteHero).toHaveBeenCalledWith(hero.id);
+    expect(mockOnConfirmAsync).toHaveBeenCalled();
     expect(mockDialogRef.close).toHaveBeenCalledWith(true);
   });
 

@@ -28,13 +28,11 @@ export class HeroesPage {
     this.router.navigateByUrl(`/form?id=${hero.id}`);
   }
   onDeleteButton(hero: Hero) {
-    const dialogRef = this.dialog.open(ConfirmDelete, {
-      data: { hero },
-    });
-    dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
-      if (result) {
-        this.heroesService.deleteHero(hero.id);
-      }
+    this.dialog.open(ConfirmDelete, {
+      data: {
+        hero,
+        onConfirmAsync: () => this.heroesService.deleteHero(hero.id),
+      },
     });
   }
 }
