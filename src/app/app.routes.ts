@@ -1,10 +1,20 @@
 import { Routes } from '@angular/router';
-import { HeroesPage } from './heroes/pages/heroes-page/heroes-page';
-import { HeroesFormPage } from './heroes/pages/heroes-form-page/heroes-form-page';
 
 export const routes: Routes = [
-  { path: '', component: HeroesPage },
-  { path: 'form', component: HeroesFormPage },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./heroes/pages/heroes-page/heroes-page').then(
+        (c) => c.HeroesPage
+      ),
+  },
+  {
+    path: 'form',
+    loadComponent: () =>
+      import('./heroes/pages/heroes-form-page/heroes-form-page').then(
+        (c) => c.HeroesFormPage
+      ),
+  },
   {
     path: '**',
     redirectTo: '',
