@@ -1,59 +1,52 @@
-# RIUFrontendGonzaloDonaire
+## Challenge Técnico: Mantenimiento de Súper Héroes (Angular 20)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.1.
+Este proyecto es una aplicación SPA desarrollada en **Angular 20** como parte de un challenge técnico. La aplicación permite gestionar (CRUD) un listado de súper héroes, cumpliendo con los siguientes requisitos:
 
-## Development server
+### Requisitos
 
-To start a local development server, run:
+- **Servicios:**
 
-```bash
-ng serve
-```
+  - Registro, consulta, búsqueda, edición y eliminación de súper héroes completamente gestionados desde servicios Angular.
+  - Los datos se mantienen en memoria (no requiere backend).
+  - Incluye **tests unitarios** para garantizar la lógica del servicio.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Estructura modular de componentes:**
 
-## Code scaffolding
+  - La aplicación está compuesta por varios componentes reutilizables y especializados:
+    - Listado paginado de héroes con acciones de añadir, editar y borrar.
+    - Filtros y formularios independientes para alta y edición, con validaciones y reutilización de lógica.
+    - Diálogo de confirmación para borrado.
+    - Header y otros componentes compartidos.
+  - Cada componente está enfocado en una responsabilidad clara, facilitando el mantenimiento y la escalabilidad.
+  - **Tests unitarios** implementados para los componentes clave.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Extras implementados:**
+  - Uso de **Angular Material** para una interfaz moderna y accesible.
+  - Rutas y navegación entre páginas (SPA completa).
+  - Interceptor para mostrar un elemento "loading" durante operaciones asíncronas.
+  - Directiva personalizada para mostrar el nombre del héroe en mayúsculas en formularios.
+  - Comunicación entre componentes basada en eventos y buenas prácticas de Angular.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+#### ¿Cómo ejecutar la aplicación?
 
-```bash
-ng generate --help
-```
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+2. Inicia la aplicación:
+   ```bash
+   npm start
+   ```
+3. Accede a [http://localhost:4200](http://localhost:4200) en tu navegador.
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+#### ¿Cómo ejecutar los tests?
 
 ```bash
-ng e2e
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Autor:** Gonzalo Donaire
