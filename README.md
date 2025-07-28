@@ -47,6 +47,28 @@ Este proyecto es una aplicación SPA desarrollada en **Angular 20** como parte d
 npm test
 ```
 
+### Construir la imagen Docker
+
+Desde la raíz del proyecto, ejecuta:
+
+```sh
+docker build -t appname .
+```
+
+### Ejecutar el contenedor
+
+```sh
+docker run -p 8080:80 appname
+```
+
+Luego abre tu navegador en [http://localhost:8080](http://localhost:8080) para ver la aplicación.
+
+### Notas
+
+- El archivo `nginx.conf` personalizado se utiliza para soportar rutas de aplicaciones Angular (SPA).
+- El build de Angular se copia desde `dist/RIU-Frontend-GonzaloDonaire/browser` a la carpeta de Nginx.
+- Si cambias el nombre del proyecto o la estructura de carpetas, ajusta la ruta en el `Dockerfile` según corresponda.
+
 ---
 
 **Autor:** Gonzalo Donaire
