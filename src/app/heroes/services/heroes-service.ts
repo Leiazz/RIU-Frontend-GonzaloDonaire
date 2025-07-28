@@ -103,8 +103,6 @@ export class HeroesService {
   }
 
   deleteHero(id: number): Promise<void> {
-    console.log(`Deleting hero with id: ${id}`);
-
     return new Promise((resolve) => {
       this.loadingService.updateLoadingDelete(true);
       setTimeout(() => {
