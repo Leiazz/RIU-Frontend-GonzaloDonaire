@@ -1,5 +1,19 @@
-<mat-nav-list class="header-nav-list">
-  <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Héroes</a>
-  <a mat-list-item routerLink="/form" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Crear un
-    héroe</a>
-</mat-nav-list>
+<nav class="navbar">
+  <div class="navbar-container">
+    <div>
+      <a href="https://flowbite.com/" class="navbar-brand">
+        <mat-icon fontIcon="shield"></mat-icon>
+        <span class="brand-text">Heroes app</span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navbar-default">
+      <ul class="navbar-list">
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            class="nav-link">Héroes</a></li>
+        <li><a routerLink="/form" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            class="nav-link">Crear
+            un héroe</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

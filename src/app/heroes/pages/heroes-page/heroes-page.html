@@ -1,4 +1,4 @@
-<mat-form-field class="search-field">
+<mat-form-field class="search-field" appearance="outline">
   <mat-label>Buscar héroe por nombre</mat-label>
   <input matInput #searchTxt (input)="heroesService.onChangeSearchString(searchTxt.value)">
 </mat-form-field>

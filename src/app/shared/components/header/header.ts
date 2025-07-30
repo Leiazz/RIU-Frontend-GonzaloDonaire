@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule, MatNavList } from '@angular/material/list';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -10,7 +11,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     RouterLinkActive,
     MatButtonModule,
     MatListModule,
-    MatNavList,
+    MatIconModule,
   ],
   templateUrl: './header.html',
   styleUrl: './header.css',

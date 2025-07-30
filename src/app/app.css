@@ -1,5 +1,6 @@
 .main-layout {
   padding: 0px 40px;
+  margin-top: 12px;
 }
 .loading-section {
   display: flex;
